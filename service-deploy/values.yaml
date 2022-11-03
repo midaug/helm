@@ -2,22 +2,22 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1 #副本数
+replicaCount: 1
 
 labels:
   project: km
   org: ai
 
 image:
-  repository: xxxx:version
+  repository: xxx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1000"
+  tag: "latest"
 
 env: []
 
-imagePullSecrets: 
-  - name: "xxx" # docker私服
+#imagePullSecrets: 
+#  - name: "xxx" # docker私服
 
 nameOverride: ""
 fullnameOverride: ""
@@ -79,30 +79,30 @@ affinity: {}  #亲和策略
   #             app: ocean
   #         topologyKey: kubernetes.io/hostname
 
-livenessProbe:  #存活校验，判断容器是否存活
+livenessProbe: {} #存活校验，判断容器是否存活
   # httpGet:
   #   scheme: HTTP
-  #   path: /ocean/version
+  #   path: /xxx
   #   port: 8080
   # initialDelaySeconds: 40 #初始化等待时间，这里等待40秒才启动校验, 按资源限制动态调整
   # timeoutSeconds: 5   #超时时间
   # periodSeconds: 10   #间隔10秒校验一次
   # successThreshold: 1  #1次成功则视为校验成功
   # failureThreshold: 3  #3才失败视为校验失败
-readinessProbe:  #就绪校验，判断容器就绪后才会接入流量
+readinessProbe: {} #就绪校验，判断容器就绪后才会接入流量
   # httpGet:
   #   scheme: HTTP
-  #   path: /ocean/version
+  #   path: /xxx
   #   port: 8080
   # initialDelaySeconds: 40
   # timeoutSeconds: 5
   # periodSeconds: 10
   # successThreshold: 1
   # failureThreshold: 3
-startupProbe:   #启动校验，判断容器是否启动成功
+startupProbe: {} #启动校验，判断容器是否启动成功
   # httpGet:
   #   scheme: HTTP
-  #   path: /ocean/version
+  #   path: /xxx
   #   port: 8080
   # initialDelaySeconds: 40
   # timeoutSeconds: 5
