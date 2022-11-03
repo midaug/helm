@@ -1,0 +1,46 @@
+metaAnnotations: 
+  kubesphere.io/alias-name: xx.appName  #别名, 项目名称
+  kubesphere.io/description: xxx业务服务 #描述
+  
+#podAnnotations: 
+#  linkerd.io/inject: enabled #启用 linkerd，注释即为不启用
+
+# 不设置nodePort的端口时默认自动随机
+service:
+  # type: NodePort #NodePort、ClusterIP，默认NodePort
+  nodePort: 32552          #http的 nodePort，对应容器内与service默认为8080
+  rpc_nodePort: 32352     #grpc的 nodePort，对应容器内与service默认为8082
+  manage_nodePort: 32452   #管理端口的 nodePort，对应容器内与service默认为8081
+
+
+# 下面监控检查注释即为不启用
+livenessProbe:  #存活校验，判断容器是否存活
+  httpGet:
+    scheme: HTTP
+    path: /health
+    port: 8080
+  initialDelaySeconds: 40 #初始化等待时间，这里等待40秒才启动校验, 按资源限制动态调整
+  timeoutSeconds: 5   #超时时间
+  periodSeconds: 10   #间隔10秒校验一次
+  successThreshold: 1  #1次成功则视为校验成功
+  failureThreshold: 3  #3才失败视为校验失败
+readinessProbe:  #就绪校验，判断容器就绪后才会接入流量
+  httpGet:
+    scheme: HTTP
+    path: /health
+    port: 8080
+  initialDelaySeconds: 40
+  timeoutSeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+startupProbe:   #启动校验，判断容器是否启动成功
+  httpGet:
+    scheme: HTTP
+    path: /health
+    port: 8080
+  initialDelaySeconds: 40
+  timeoutSeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3

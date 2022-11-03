@@ -1,0 +1,7 @@
+env: 
+  - name: OPTS_ENV_MARK
+    value: dev
+  - name: OPTS_OTHER
+    value: |-
+      -Dxxxx1=xxx   
+      -Dxxxx2=xxx 

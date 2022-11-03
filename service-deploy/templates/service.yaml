@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "service-deploy.fullname" . }}
+  {{- with .Values.metaAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  labels:
+    {{- include "service-deploy.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- if eq .Values.service.type "NodePort" }}
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  {{- end }}
+  ports:
+    - port: {{ default 8080 .Values.service.port }}
+      {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort))) }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: {{ default 8082 .Values.service.rpc_port }}
+      {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.rpc_nodePort))) }}
+      nodePort: {{ .Values.service.rpc_nodePort }}
+      {{- end }}
+      targetPort: rpc
+      protocol: TCP
+      name: rpc
+    - port: {{ default 8081 .Values.service.manage_port }}
+      {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.manage_nodePort))) }}
+      nodePort: {{ .Values.service.manage_nodePort }}
+      {{- end }}
+      targetPort: manage
+      protocol: TCP
+      name: manage
+  selector:
+    {{- include "service-deploy.selectorLabels" . | nindent 4 }}
