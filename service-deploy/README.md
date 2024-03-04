@@ -9,7 +9,7 @@
     
 
 #### helm替换kubectl部署示例
-第一次部署时需要将执行install，后续都是upgrade   
+第一次部署时需要将执行install，后续都是upgrade。可以使用   upgrade --install替代install
 ```bash
 #超长的环境变量,太多字符导致无法使用--set替换，需要放到文件中
 start_other_opts="xxxxxxxx"
@@ -18,7 +18,7 @@ start_other_opts="xxxxxxxx"
 echo $start_other_opts > ./start_other_opts.txt
 
 
-helm upgrade appNmae ./ \ #执行升级，./为模板目录，也可以是模板tgz文件。新的k8s中安装时将upgrade替换为install
+helm upgrade --install appNmae ./ \ #执行升级，./为模板目录，也可以是模板tgz文件。--install时如果k8s里没有则为安装
 --namespace xxxspace \ #指定namespace
 -f ./helm-values.yaml \ #将项目中的自定义变量覆盖模板
 --set image.repository=xxxxname \ #指定服务镜像
