@@ -5,8 +5,8 @@
 replicaCount: 1
 
 labels:
-  project: km
-  org: ai
+  project: project
+  org: org
 
 image:
   repository: xxx
